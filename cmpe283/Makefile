@@ -1,4 +1,3 @@
-
 obj-m += cmpe283-1.o
 
 all:

@@ -1,8 +1,7 @@
 #include <linux/module.h>	/* Needed by all modules */
 #include <linux/kernel.h>	/* Needed for KERN_INFO */
 #include <asm/msr.h>
-
-
+:
 #define MAX_MSG 80
 
 /*
