@@ -48,7 +48,8 @@ Building and Installing Kernel:
  $ sudo make install -j 8
 
 On successful build, uname -a should show the updated version
-![image](https://user-images.githubusercontent.com/89236239/141696341-4565ed0b-28bf-46e4-9e9c-b4f424ce75b1.png)
+![image](https://user-images.githubusercontent.com/89236239/141696787-0fb1102c-c69b-4d0c-b89b-08223125e286.png)
+
 
 **Step 8: **
 On successful make, .ko file will get generated, mount .ko file using below command
