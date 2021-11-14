@@ -18,6 +18,7 @@ Disk Image: Ubuntu 1604 (150GB)
 Note: (By default for gcp it is disabled, follow https://cloud.google.com/compute/docs/instances/nested-virtualization/enabling )
 
 **Step 3:** Verify nested virtualization or enabled or not using below command 
+ 
  $ gcloud compute ssh <<VM_NAME>>
  $ grep -cw vmx /proc/cpuinfo
 
@@ -73,5 +74,8 @@ If any other change is required in .c file,
 Check results, using 
 
  $ dmesg
+ 
+ 
+
  
 
