@@ -20,6 +20,7 @@ Note: (By default for gcp it is disabled, follow https://cloud.google.com/comput
 **Step 3:** Verify nested virtualization or enabled or not using below command 
  
  $ gcloud compute ssh <<VM_NAME>>
+ 
  $ grep -cw vmx /proc/cpuinfo
 
 (If nested virtualization is enabled for your machine, then you should get value > 0)
@@ -38,14 +39,19 @@ On trying **make** this new added file, you might see some errors. Errors may be
 Follow below steps to mount new kernel version:
 
 $ cp /boot/config-$(uname -r) .config   
+
 $ make oldconfig
 
 **Step 7:** 
 Building and Installing Kernel:
  
+ 
  $ sudo make modules -j 8
+ 
  $ sudo make -j 8 
+ 
  $ sudo make INSTALL_MOD_STRIP=1 modules_install -j 8
+ 
  $ sudo make install -j 8
 
 On successful build, uname -a should show the updated version
@@ -62,9 +68,11 @@ Installing module
 **Step 9: (optional)**
 If any other change is required in .c file, 
 1. unmount the already mounted module, using 
+
  $ sudo rmmod cmpe283-1.ko
 2. make changes to your file. 
 3. mount new updated file again, using 
+
  $ sudo insmod cmpe283-1.ko
 
 (Check whether module is mounted or not using lsmod | grep cmpe283)
