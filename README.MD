@@ -1,8 +1,8 @@
-**CMPE283-ASSIGNMENT 1 
+CMPE283-ASSIGNMENT 1 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Completed by 
 Aakanksha Gupta 
-San Jose State University**
+San Jose State University
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 **To Do:** 
 Create a linux kernel module that will query various MSR's to determine virtualization feautures available in the CPU. 
