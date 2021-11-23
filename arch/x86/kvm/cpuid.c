@@ -1230,16 +1230,52 @@ bool kvm_cpuid(struct kvm_vcpu *vcpu, u32 *eax, u32 *ebx,
 }
 EXPORT_SYMBOL_GPL(kvm_cpuid);
 
+//extern u32 total_exits;
+
+ u32 total_exits;
+ EXPORT_SYMBOL(total_exits);
+  
+ u64 total_cycles; 
+ EXPORT_SYMBOL(total_cycles);
+
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
-
+       
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
-
+     
 	eax = kvm_rax_read(vcpu);
-	ecx = kvm_rcx_read(vcpu);
-	kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
+	ecx = kvm_rcx_read(vcpu);       
+	//kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
+       
+        //int64_t cycles_temp; 
+  
+        if (eax == 0x4FFFFFFF)
+       {
+         eax = total_exits;
+         printk("Total Exits Stored in eax register: ");     
+         printk("%d", eax); 
+         printk("Total Exits Stored in eax register: ");
+       }
+        else if (eax == 0x4FFFFFFE)
+       {
+      
+          //cycles_temp = total_cycles;
+          ebx = (total_cycles >> 32);
+          ecx = (total_cycles & 0xffffffff);
+          printk("Total cycle time for all exits:");
+         // printk("%d" , total_cycles);
+         // printk("%d" , ebx);
+         // printk("%d" , ecx);
+          printk("--------------------------Total Cycles: High Bit-----------------------------------"); 
+          printk("%d" , ebx);         
+          printk("--------------------------Total Cycles: Low Bit------------------------------------");
+          printk("%d" , ecx);       
+       }
+       else {
+        kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
+        }
 	kvm_rax_write(vcpu, eax);
 	kvm_rbx_write(vcpu, ebx);
 	kvm_rcx_write(vcpu, ecx);

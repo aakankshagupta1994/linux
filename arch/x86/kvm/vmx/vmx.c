@@ -5916,12 +5916,22 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
  * The guest has exited.  See if we can fix it or if we need userspace
  * assistance.
  */
+
+// cmpe-283-assignment-2
+//extern u32 total_exits;
+
 static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
-{
-	struct vcpu_vmx *vmx = to_vmx(vcpu);
+{	
+        struct vcpu_vmx *vmx = to_vmx(vcpu);
 	union vmx_exit_reason exit_reason = vmx->exit_reason;
 	u32 vectoring_info = vmx->idt_vectoring_info;
 	u16 exit_handler_index;
+        
+        
+        // cmpe-283-assignment-2
+      //  extern u32 total_exits;
+       // total_exits++;
+       
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
@@ -6076,11 +6086,33 @@ unexpected_vmexit:
 	vcpu->run->internal.data[0] = exit_reason.full;
 	vcpu->run->internal.data[1] = vcpu->arch.last_vmentry_cpu;
 	return 0;
+
+
+
 }
+// cmpe-283 assignment-2: calculate total number of cycles.
+  extern u64 total_cycles;
 
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
-	int ret = __vmx_handle_exit(vcpu, exit_fastpath);
+
+// cmpe-283: assignment-2 Calculate total cycles
+        
+        uint64_t start_cycle_time, end_cycle_time; // declare two variables for storing start and time time        
+        int ret; 
+        
+       // cmpe-283-assignment-2
+        extern u32 total_exits;
+        total_exits++; 
+       
+        start_cycle_time = rdtsc();
+	
+        ret = __vmx_handle_exit(vcpu, exit_fastpath);
+        
+        end_cycle_time = rdtsc();
+        
+        total_cycles = total_cycles + end_cycle_time - start_cycle_time; // store difference between end and start time in the global variable..
+
 
 	/*
 	 * Exit to user space when bus lock detected to inform that there is
