@@ -5918,7 +5918,8 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
  */
 
 // cmpe-283-assignment-2
-//extern u32 total_exits;
+extern u32 exit_reason;
+
 
 static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {	
@@ -5927,10 +5928,14 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	u32 vectoring_info = vmx->idt_vectoring_info;
 	u16 exit_handler_index;
         
-        
-        // cmpe-283-assignment-2
-      //  extern u32 total_exits;
-       // total_exits++;
+       // struct vcpu_vmx *vmx = to_vmx(vcpu);
+
+       // *reason = vmx->exit_reason.full;
+     // exit_reason = (int)exit_reason.basic;
+
+         // cmpe-283-assignment-2
+         //  extern u32 total_exits;
+         // total_exits++;
        
 
 	/*
@@ -6091,20 +6096,30 @@ unexpected_vmexit:
 
 }
 // cmpe-283 assignment-2: calculate total number of cycles.
-  extern u64 total_cycles;
+extern u64 total_cycles;
+extern u64 ext_rsn_handler[69];
+
+extern u64 total_time_per_rsn[69];
 
 static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 {
 
 // cmpe-283: assignment-2 Calculate total cycles
-        
+       
+        struct vcpu_vmx *vmx = to_vmx(vcpu);
+	union vmx_exit_reason exit_reason = vmx->exit_reason;
+ 	u32 ext_rsn_val = exit_reason.basic;
+ 
         uint64_t start_cycle_time, end_cycle_time; // declare two variables for storing start and time time        
         int ret; 
-        
+                
        // cmpe-283-assignment-2
         extern u32 total_exits;
         total_exits++; 
-       
+
+       // cmpe-283-assignment-3 
+       ext_rsn_handler[(int)ext_rsn_val]++;
+        
         start_cycle_time = rdtsc();
 	
         ret = __vmx_handle_exit(vcpu, exit_fastpath);
@@ -6112,7 +6127,11 @@ static int vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
         end_cycle_time = rdtsc();
         
         total_cycles = total_cycles + end_cycle_time - start_cycle_time; // store difference between end and start time in the global variable..
-
+total_time_per_rsn[(int)ext_rsn_val] = total_time_per_rsn[(int)ext_rsn_val] + end_cycle_time  - start_cycle_time; 
+       // printk("%d", (int)exit_reason_val);
+ 
+       // ext_rsn_handler[(int)ext_rsn_val] = ext_rsn_handler[(int)ext_rsn_val] + end_cycle_time  - start_cycle_time;      
+       // printk(to_vmx(vcpu)->exit_reason);
 
 	/*
 	 * Exit to user space when bus lock detected to inform that there is
