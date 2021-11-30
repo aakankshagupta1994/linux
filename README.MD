@@ -136,7 +136,7 @@ Follow below steps for successful loading of the module.
 ```
 make -j 8 modules
 make -j 8
-sudo make INSTALL_MOD_STRIP=1
+sudo make INSTALL_MOD_STRIP=1 modules_install
 sudo make install 
 ```
 
@@ -174,7 +174,7 @@ Start server using
 
 ```
 virsh start l2vmcmpe283
-virst console l2vmcmpe283
+virsh console l2vmcmpe283
 ```
 
 Check whether server is running or not 
@@ -188,10 +188,52 @@ RESULTS:
 ![image](https://user-images.githubusercontent.com/89236239/142974636-faa9d681-c525-40d2-8470-90d80f7b71a1.png)
 
 
+ASSIGNMENT-3
+------
+Your assignment is to modify the CPUID emulation code in KVM to report back additional information 
+when special CPUID leaf nodes are requested.
+For CPUID leaf node %eax=0x4FFFFFFD:
+◦Return the number of exits for the exit number provided (on input) in %ecx
+▪This value should be returned in %eax 
+•For CPUID leaf node %eax=0x4FFFFFFC:
+◦Return the time spent processing the exit number provided (on input) in %ecx
+▪Return the high 32 bits of the total time spent for that exit in %ebx
+▪Return the low 32 bits of the total time spent for that exit in %ecx
+
+QUESTIONS: 
+------
+1. For each member in your team, provide 1 paragraph detailing what parts of the lab that member 
+implemented / researched. 
+
+INDIVIDUAL ASSIGNMENT
 
 
+PLATFORM USED: 
+------
+GOOGLE CLOUD VM 
 
+PREREQUISITES:
+----
+1. ASSIGNMENT-1 SETUP
+2. BASIC NESTED VM RUNNING ON GCP KNOWLEDGE
+(If not follow https://cloud.google.com/compute/docs/instances/nested-virtualization/overview)
 
+TEST STEPS: 
+----
+FOLLOW ASSIGNMENT-2 STEPS FOR TESTING CHANGES 
+
+RESULTS: 
+----
+
+TEST CASE 1 : %eax=0x4FFFFFFC
+If the exit type is not supported by Intel-SDM, returned eax=abx=ecx=0x00000000 and edx = 0xffffffff
+If exit type is not supported by KVM, returned eax=abx=ecx=edx0x00000000
+![image](https://user-images.githubusercontent.com/89236239/143984844-502d627e-49a2-436d-9b7a-e7b0cbd46b0a.png)
+
+TEST CASE 2: %eax=0x4FFFFFFC
+If the exit type is not supported by Intel-SDM, returned eax=abx=ecx=0x00000000 and edx = 0xffffffff
+If exit type is not supported by KVM, returned eax=abx=ecx=edx0x00000000
+![image](https://user-images.githubusercontent.com/89236239/143985079-2d49e663-d104-4d34-a96c-cdc1de79dc3a.png)
 
 
 
