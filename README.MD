@@ -212,11 +212,19 @@ more exits performed during certain VM operations? Approximately how many exits 
 boot entail?
 
 --> It was observed that the frequency of exit was not stable, sometimes they increased by 5, sometimes no change etc. 
+
+
 --> It was observed that mostly exits were caused due to I/O instructions. 
+
+
 --> On full VM reboot it was observed a total of 12300 exits increased
 
 4. Of the exit types defined in the SDM, which are the most frequent? Least?
+
+
 --> Most common exits were EPT violations.
+
+
 --> Least common were Triple fault.
 
 
@@ -228,7 +236,9 @@ GOOGLE CLOUD VM
 PREREQUISITES:
 ----
 1. ASSIGNMENT-1 SETUP
+
 2. BASIC NESTED VM RUNNING ON GCP KNOWLEDGE
+
 (If not follow https://cloud.google.com/compute/docs/instances/nested-virtualization/overview)
 
 TEST STEPS: 
@@ -239,13 +249,18 @@ RESULTS:
 ----
 
 TEST CASE 1 : %eax=0x4FFFFFFC
+
 If the exit type is not supported by Intel-SDM, returned eax=abx=ecx=0x00000000 and edx = 0xffffffff
+
 If exit type is not supported by KVM, returned eax=abx=ecx=edx0x00000000
 ![image](https://user-images.githubusercontent.com/89236239/143984844-502d627e-49a2-436d-9b7a-e7b0cbd46b0a.png)
 
 TEST CASE 2: %eax=0x4FFFFFFC
+
 If the exit type is not supported by Intel-SDM, returned eax=abx=ecx=0x00000000 and edx = 0xffffffff
+
 If exit type is not supported by KVM, returned eax=abx=ecx=edx0x00000000
+
 ![image](https://user-images.githubusercontent.com/89236239/143985079-2d49e663-d104-4d34-a96c-cdc1de79dc3a.png)
 
 
