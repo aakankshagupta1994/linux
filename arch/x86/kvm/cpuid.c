@@ -1290,6 +1290,7 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
          
 if ((int)ecx == 35 || (int)ecx == 38 || (int)ecx == 42 || (int)ecx == 65 || (int)ecx > 69 || (int)ecx < 0 )
         {
+printk("Not supported by Intel-SDM");
          eax = 0X00000000;
          ebx = 0X00000000;
          ecx = 0X00000000;
@@ -1297,6 +1298,7 @@ if ((int)ecx == 35 || (int)ecx == 38 || (int)ecx == 42 || (int)ecx == 65 || (int
         }
 else if (eax == 0x00000000)
 {
+printk("Not supported by KVM");
          eax = 0X00000000;
          ebx = 0X00000000;
          ecx = 0X00000000;
@@ -1305,22 +1307,28 @@ else if (eax == 0x00000000)
        }
        else if (eax == 0X4FFFFFFC)
 {
-           ebx = (total_time_per_rsn[(int)ecx] >> 32);
-           ecx = (total_time_per_rsn[(int)ecx] & 0xffffffff);
-if ((int)ecx == 35 || (int)ecx == 38 || (int)ecx == 42 || (int)ecx == 65 || (int)ecx > 69 || (int)ecx < 0 )
-        {
+ 
+           if ((int)ecx == 35 || (int)ecx == 38 || (int)ecx == 42 || (int)ecx == 65 || (int)ecx > 69 || (int)ecx < 0 )
+          {
+         printk("Not supported by Intel-SDM");
          eax = 0X00000000;
          ebx = 0X00000000;
          ecx = 0X00000000;
          edx = 0XFFFFFFFF;
         }
-else if (ebx == 0x00000000 && ecx == 0x00000000)
-{        
+        else 
+{
+           ebx = (total_time_per_rsn[(int)ecx] >> 32);
+           ecx = (total_time_per_rsn[(int)ecx] & 0xffffffff);
+          if (ecx == 0x00000000)
+        {
+        printk("Not supported by KVM");
          eax = 0X00000000;
          ebx = 0X00000000;
          ecx = 0X00000000;
          edx = 0X00000000;
-} 
+       }
+}     
 
 }
        else {
