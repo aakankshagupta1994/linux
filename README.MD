@@ -83,7 +83,129 @@ Check results, using
 
  $ dmesg
  
- 
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ASSIGNMENT-2
+ -------
+TASK:
+------
+Your assignment is to modify the CPUID emulation code in KVM to report back additional information 
+when special CPUID leaf nodes are requested.
+1. For CPUID leaf node %eax=0x4FFFFFFF:
+◦Return the total number of exits (all types) in %eax
+
+2. For CPUID leaf node %eax=0x4FFFFFFE:
+◦Return the high 32 bits of the total time spent processing all exits in %ebx
+◦Return the low 32 bits of the total time spent processing all exits in %ecx
+▪%ebx and %ecx return values are measured in processor cycles, across all VCPUs
+
+
+QUESTIONS: 
+------
+1. For each member in your team, provide 1 paragraph detailing what parts of the lab that member 
+implemented / researched. 
+
+INDIVIDUAL ASSIGNMENT
+
+
+PLATFORM USED: 
+------
+GOOGLE CLOUD VM 
+
+PREREQUISITES:
+----
+1. ASSIGNMENT-1 SETUP
+2. BASIC NESTED VM RUNNING ON GCP KNOWLEDGE
+(If not follow https://cloud.google.com/compute/docs/instances/nested-virtualization/overview)
+
+DETAIL:
+------
+
+GO TO /linux/arch/x86/kvm/cpuid.c file ---> kvm_emulate_cpuid function
+this is the function, which is used to emulate cpuid instruction. 
+Check directory linux/arch/x86/kvm/cpuid.c for details.
+
+
+GO TO /linux/arch/x86/kvm/vmx/vmx.c ----> vmx_handle_exit 
+This function emulates all the exits. 
+Check directory linux/arch/x86/kvm/vmx/vmx.c for details.
+
+TEST STEPS: 
+-----
+
+Follow below steps for successful loading of the module.
+```
+make -j 8 modules
+make -j 8
+sudo make INSTALL_MOD_STRIP=1
+sudo make install 
+```
+
+Check whether kvm is already mounted or not using below command
+```
+lsmod | grep kvm
+```
+ If already mounted, remove kvm and kvm_intel and mount it again using below commands. 
+```
+rmmod kvm_intel
+rmmod kvm
+modprobe kvm_intel
+modprobe kvm
+```
+
+
+
+Run nested VM on gcp to call CPUID command 
+
+Here I have installed CentOS on VM using below commands
+
+```
+sudo apt-get install qemu-kvm libvirt-bin bridge-utils virt-manager
+
+wget http://kozyatagi.mirror.guzel.net.tr/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso
+
+$ virt-install  --network bridge:virbr0 --name l2vmcmpe283 \
+ --os-variant=centos7.0 --ram=1024 --vcpus=1  \
+ --disk path=/var/lib/libvirt/images/l2vmcmpe283-os.qcow2,format=qcow2,bus=virtio,size=5 \
+  --graphics none  --location=/var/lib/libvirt/images/CentOS-7-x86_64-DVD-2009.iso \
+  --extra-args="console=tty0 console=ttyS0,115200"  --check all=off
+```
+
+Start server using 
+
+```
+virsh start l2vmcmpe283
+virst console l2vmcmpe283
+```
+
+Check whether server is running or not 
+```
+virsh -c qemu:///system list
+```
+
+
+RESULTS: 
+
+![image](https://user-images.githubusercontent.com/89236239/142974636-faa9d681-c525-40d2-8470-90d80f7b71a1.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
 
  
 
