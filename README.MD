@@ -207,6 +207,19 @@ implemented / researched.
 
 INDIVIDUAL ASSIGNMENT
 
+3. Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there 
+more exits performed during certain VM operations? Approximately how many exits does a full VM 
+boot entail?
+
+--> It was observed that the frequency of exit was not stable, sometimes they increased by 5, sometimes no change etc. 
+--> It was observed that mostly exits were caused due to I/O instructions. 
+--> On full VM reboot it was observed a total of 12300 exits increased
+
+4. Of the exit types defined in the SDM, which are the most frequent? Least?
+--> Most common exits were EPT violations.
+--> Least common were Triple fault.
+
+
 
 PLATFORM USED: 
 ------
