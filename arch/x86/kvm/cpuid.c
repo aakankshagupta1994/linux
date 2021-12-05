@@ -1249,8 +1249,10 @@ EXPORT_SYMBOL_GPL(kvm_cpuid);
  
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
-	u32 eax, ebx, ecx, edx;
-       
+	int i =0;
+        u32 eax, ebx, ecx, edx;
+         
+        
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
      
@@ -1332,8 +1334,16 @@ printk("Not supported by KVM");
 
 }
        else {
-        kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
-        }
+        kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);        
+}
+  
+  
+   printk("---------ASSIGNMENT-4-----------"); 
+   for(i = 0 ; i < 69 ; i++)
+    {
+     printk(" Exit no for : %d -- %d ",i ,(int)ext_rsn_handler[i]);
+     }
+
 	kvm_rax_write(vcpu, eax);
 	kvm_rbx_write(vcpu, ebx);
 	kvm_rcx_write(vcpu, ecx);
