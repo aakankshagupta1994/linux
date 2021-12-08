@@ -264,6 +264,49 @@ If exit type is not supported by KVM, returned eax=abx=ecx=edx0x00000000
 ![image](https://user-images.githubusercontent.com/89236239/143985079-2d49e663-d104-4d34-a96c-cdc1de79dc3a.png)
 
 
+----------
+ASSIGNMENT-4
+-----
+
+1. For each member in your team, provide 1 paragraph detailing what parts of the lab that member 
+implemented / researched. (You may skip this question if you are doing the lab by yourself).
+
+INDIVIDUAL ASSIGNMENT
+-----
+
+2. Include a sample of your print of exit count output from dmesg from “with ept” and “without ept”.
+
+STEPS: 
+-------
+1. RUN ASSIGNMENT-3, code with and without ept.
+
+
+2. Print results using dmesg command. 
+
+
+
+**without ept **
+
+![image](https://user-images.githubusercontent.com/89236239/145292170-a74d2bdb-7186-47ac-833b-9adfb315d1ff.png)
+
+![image](https://user-images.githubusercontent.com/89236239/145292182-00fa47fb-d1ed-4595-9fff-586224c5a9fa.png)
+
+**with ept**
+
+
+![image](https://user-images.githubusercontent.com/89236239/145292195-775f52ea-7862-4e87-963a-29b71b3e70be.png)
+
+![image](https://user-images.githubusercontent.com/89236239/145292202-09d653c0-32dc-4f62-a878-eff056ba3902.png)
+
+
+3. What did you learn from the count of exits? Was the count what you expected? If not, why not?
+
+After switching to shadow from nested switching, some exits types suddenly increased, some even remained constant. 
+
+4. What changed between the two runs (ept vs no-ept)?
+--> It was observed that some exits suddenly increased, like NMI. 
+--> It was also observed that in shadow paging other exists occured which were not present earlier like INVLPG. 
+--> Also some exits were reduced to zero which were appearing earlier like EPT violation and EPT misconfigurations. 
 
 
 
